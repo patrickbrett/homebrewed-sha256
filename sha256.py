@@ -31,8 +31,7 @@ def choice(x, y, z):
   
 
 def majority(x, y, z):
-  return ((x ^ y) & z) | ((x ^ z) & y) | ((y ^ z) & x)
-
+  return (~(x ^ y) & x) | (~(x ^ z) & x) | (~(y ^ z) & y)
 
 def prime_finder(n):
   primes = []
@@ -154,8 +153,8 @@ def compress(sched, H0 = None):
     W = binstr_to_bin(word)
     kk = K[i]
 
-    T1 = (usigma1(e) + choice(e, f, g) + h + kk + W) % (1 << 32)
-    T2 = (usigma0(a) + majority(a, b, c)) % (1 << 32)
+    T1 = (usigma1(H0[4]) + choice(H0[4], H0[5], H0[6]) + H0[7] + kk + W) % (1 << 32)
+    T2 = (usigma0(H0[0]) + majority(H0[0], H0[1], H0[2])) % (1 << 32)
 
     # move words in state registers down one
     for i in range(7, 0, -1):
@@ -166,7 +165,7 @@ def compress(sched, H0 = None):
 
   for i in range(0, 8):
     H0[i] = (H0[i] + h_init[i]) % (1 << 32)
-  
+
   return H0
 
 
@@ -190,9 +189,6 @@ def sha256(string):
   return "".join(strs_hex)
 
 
-def run():
+if __name__ == '__main__':
   res = sha256("abc")
   print(res)
-
-
-run()
