@@ -34,14 +34,15 @@ def fill_sched(words):
 
 def compress(sched, H0=None):
     if H0 is None:
-        H0 = H0_init
+        H0 = H0_init.copy()
 
     h_init = H0.copy()
 
     for word, kk in zip(sched, K):
         W = binstr_to_bin(word)
 
-        T1 = wrap32((usigma1(H0[4]) + choice(H0[4], H0[5], H0[6]) + H0[7] + kk + W))
+        T1 = wrap32(
+            (usigma1(H0[4]) + choice(H0[4], H0[5], H0[6]) + H0[7] + kk + W))
         T2 = wrap32((usigma0(H0[0]) + majority(H0[0], H0[1], H0[2])))
 
         # move words in state registers down one
