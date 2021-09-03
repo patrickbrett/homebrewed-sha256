@@ -67,8 +67,6 @@ def sha256(string):
         words = block_to_words(x)
         filled = fill_sched(words)
         filleds.append(filled)
-    
-    print(len(filleds))
 
     curr = None
     for f in filleds:
