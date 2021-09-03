@@ -1,7 +1,5 @@
 from math import modf
 
-# Utils
-
 # rotate x right by n places, assuming 32 bits
 def rotr32(x, n):
   return x >> n | (x & ((1 << n) - 1)) << (32 - n)
@@ -78,6 +76,13 @@ def bin_to_binstr(x, l):
   return x
 
 
+def bin_to_hexstr(x, l):
+  x = hexf(x)
+  if len(x) < l:
+    x = "0" * (l - len(x)) + x
+  return x
+
+
 def str_to_binstr(s):
   binstr = ""
   for char in s:
@@ -94,6 +99,10 @@ def binf(x):
   return "{0:b}".format(x)
 
 
+def hexf(x):
+  return "{0:x}".format(x)
+
+
 def message_to_blocks(msg):
   return [msg[m : m + 512] for m in range(0, len(msg), 512)]
 
@@ -104,6 +113,7 @@ def block_to_words(blk):
 
 def binstr_to_bin(s):
   return int(s, 2)
+
 
 def fill_sched(words):
   sched = list(map(lambda x: binstr_to_bin(x), words))
@@ -131,8 +141,6 @@ def compress(sched, H0 = None):
 
   h_init = H0.copy()
 
-  print(p(h_init))
-
   for i, word in enumerate(sched):
     a = H0[0]
     b = H0[1]
@@ -159,12 +167,12 @@ def compress(sched, H0 = None):
   for i in range(0, 8):
     H0[i] = (H0[i] + h_init[i]) % (1 << 32)
   
-  print(H0)
   return H0
 
-def run():
-  p = pad(str_to_binstr("abc"))
-  k = message_to_blocks(p)
+
+def sha256(string):
+  padded = pad(str_to_binstr(string))
+  k = message_to_blocks(padded)
 
   filleds = []
   for x in k:
@@ -176,13 +184,15 @@ def run():
     curr = None
     curr = compress(filled, curr)
   
-  print(list(map(lambda x: bin_to_binstr(x, 32), curr)))
-  
+  strs = p(curr)
+  strs_hex = list(map(lambda x: bin_to_hexstr(binstr_to_bin(x), 2), strs))
+
+  return "".join(strs_hex)
+
+
+def run():
+  res = sha256("abc")
+  print(res)
+
 
 run()
-
-# print("{0:b}".format(rotr32(0b10101010101010101010101010101011, 7)))
-# print("{0:b}".format(sigma0(0b00000000000000000011111111111111)))
-# print("{0:b}".format(choice(0b00000000111111110000000011111111, 0b00000000000000001111111111111111, 0b11111111111111110000000000000000)))
-# print("{0:b}".format(majority(0b00000000111111110000000011111111, 0b00000000000000001111111111111111, 0b11111111111111110000000000000000)))
-
