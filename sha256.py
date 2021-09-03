@@ -67,10 +67,12 @@ def sha256(string):
         words = block_to_words(x)
         filled = fill_sched(words)
         filleds.append(filled)
+    
+    print(len(filleds))
 
+    curr = None
     for f in filleds:
-        curr = None
-        curr = compress(filled, curr)
+        curr = compress(f, curr)
 
     strs = p(curr)
     strs_hex = list(map(lambda x: bin_to_hexstr(binstr_to_bin(x), 2), strs))

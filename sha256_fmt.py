@@ -2,18 +2,19 @@ def binstr_to_bin(s):
     return int(s, 2)
 
 
-def bin_to_binstr(x, l):
-    x = binf(x)
+def pad_str(x, l, fmt):
+    x = fmt(x)
     if len(x) < l:
         x = "0" * (l - len(x)) + x
     return x
+
+
+def bin_to_binstr(x, l):
+    return pad_str(x, l, binf)
 
 
 def bin_to_hexstr(x, l):
-    x = hexf(x)
-    if len(x) < l:
-        x = "0" * (l - len(x)) + x
-    return x
+    return pad_str(x, l, hexf)
 
 
 def str_to_binstr(s):
