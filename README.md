@@ -1,4 +1,4 @@
-# hashing-algos
+# Homebrewed SHA256
 
 Experimenting with a hand rolled implementation of SHA-256.
 
