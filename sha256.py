@@ -17,7 +17,7 @@ def block_to_words(blk):
 
 
 def fill_sched(words):
-    sched = list(map(lambda x: binstr_to_bin(x), words))
+    sched = list(map(binstr_to_bin, words))
 
     for t in range(16, 64):
         a = sigma1(sched[t-2])
