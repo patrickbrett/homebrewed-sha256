@@ -1,6 +1,6 @@
 # Homebrewed SHA256
 
-Experimenting with a hand rolled implementation of SHA-256.
+Experimenting with a hand-rolled-from-scratch implementation of SHA-256.
 
 To try it out:
 
