@@ -2,8 +2,6 @@
 
 Experimenting with a hand rolled implementation of SHA-256.
 
-It works!!
-
 To try it out:
 
 ```
